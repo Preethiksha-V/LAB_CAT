@@ -2,34 +2,28 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'MESSAGE', defaultValue: 'Hello Jenkins', description: 'Message to print')
+        string(name: 'USERNAME', defaultValue: 'DefaultUser', description: 'Enter your username')
     }
 
     stages {
-        stage('Checkout Latest Commit') {
+        stage('Checkout Latest Version') {
             steps {
-                // Checkout latest commit from GitHub
+                // Checkout latest version from GitHub
                 checkout scm
             }
         }
 
-        stage('Create output.txt') {
+        stage('Create user.txt') {
             steps {
-                // Create a file named output.txt using BAT command
-                bat 'echo This is output from Jenkins > output.txt'
+                // Create user.txt and store the username inside it
+                bat "echo ${params.USERNAME} > user.txt"
             }
         }
 
-        stage('Display output.txt Contents') {
+        stage('Verify user.txt') {
             steps {
-                // Display the contents of output.txt in Jenkins console
-                bat 'type output.txt'
-            }
-        }
-
-        stage('Print Parameter Again') {
-            steps {
-                echo "Parameter value is still: ${params.MESSAGE}"
+                // Display the contents of user.txt in Jenkins console
+                bat 'type user.txt'
             }
         }
     }
