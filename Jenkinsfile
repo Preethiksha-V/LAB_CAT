@@ -6,23 +6,30 @@ pipeline {
     }
 
     stages {
-        stage('Checkout Updated Code') {
+        stage('Checkout Latest Commit') {
             steps {
-                // Checkout updated source code from GitHub
+                // Checkout latest commit from GitHub
                 checkout scm
             }
         }
 
-        stage('Display System Date') {
+        stage('Create output.txt') {
             steps {
-                // Windows BAT command to show current system date
-                bat 'echo Current System Date: %date%'
+                // Create a file named output.txt using BAT command
+                bat 'echo This is output from Jenkins > output.txt'
+            }
+        }
+
+        stage('Display output.txt Contents') {
+            steps {
+                // Display the contents of output.txt in Jenkins console
+                bat 'type output.txt'
             }
         }
 
         stage('Print Parameter Again') {
             steps {
-                echo "Verifying parameter value again: ${params.MESSAGE}"
+                echo "Parameter value is still: ${params.MESSAGE}"
             }
         }
     }
